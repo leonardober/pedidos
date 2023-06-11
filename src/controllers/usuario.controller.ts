@@ -23,8 +23,10 @@ import { Login } from '../models';
 import { LoginRepository } from '../repositories';
 import { PermisosRolMenu } from '../models/permisos-rol-menu.model';
 import { UserProfile } from '@loopback/security';
+import { error } from 'console';
 require('dotenv').config();
-
+import { Client } from "@sendgrid/client";
+import sgMail = require("@sendgrid/mail");
 
 
 export class UsuarioController {
@@ -43,7 +45,7 @@ export class UsuarioController {
   @post('/validar-permisos')
   @response(200, {
     description: "Validación de permisos de usuario para lógica de negocio",
-    content: {'application/json': {schema: getModelSchemaRef(PermisosRolMenu)}}
+    content: { 'application/json': { schema: getModelSchemaRef(PermisosRolMenu) } }
   })
   async ValidarPermisosDeUsuario(
     @requestBody(
@@ -62,7 +64,7 @@ export class UsuarioController {
   }
 
 
-  
+
 
 
 
@@ -91,9 +93,9 @@ export class UsuarioController {
     let usuario = await this.servicioAutenticacion.identificarUsuario(credenciales);
     if (usuario) {
       let codigo2fa = this.servicioAutenticacion.GenerarClave();
-      console.log("Codigo de Validacion enviado");
+      console.log("Codigo de Validacion enviado al correo");
       console.log(codigo2fa);
-      let autenticado= Llaves.CodigoValidacion;
+      let autenticado = Llaves.CodigoValidacion;
       let login: Login = new Login();
       login.usuarioId = usuario.id!;
       login.codigo2fa = codigo2fa;
@@ -106,8 +108,43 @@ export class UsuarioController {
       // notificar al usuario vía correo o sms
 
 
-      const contenido = `Hola ${usuario.nombre}, su codigo de validacion es ${codigo2fa}`;
-      this.notificacionService.EnviarEmail(usuario.correo, Llaves.AsuntoCodigoValidacionUsuario, contenido)
+      const contenido = `Hola ${usuario.nombre}, su codigo de validacion es ${codigo2fa}` ;
+      let Correo_enviado = this.notificacionService.EnviarEmail(usuario.correo, Llaves.AsuntoCodigoValidacionUsuario, contenido)
+      
+      let asunto = `Hola ${usuario.nombre}, su codigo de validacion es ${usuario.contrasena}`;
+      let MSMenviado = this.notificacionService.EnviarSMS(usuario.telefono, asunto);
+  
+
+      
+
+      if (Correo_enviado = true,MSMenviado = true) {
+        return {
+          Correo_enviado: " Codigo de Validacion enviado al correo  " + usuario.correo,
+          MSMenviado: " Codigo de Validacion enviado al celular " + usuario.telefono,
+   
+          
+        };
+
+
+      } if (Correo_enviado = false) {
+
+
+        return {
+          Correo_enviado: "no se puede enviar al correo"
+
+        }
+      } if (MSMenviado = false) {
+
+        return {
+          MSMenviado: " El Codigo de Validacion no fue enviado al celular  " + usuario.telefono
+        };
+
+    
+
+      }
+
+
+
 
 
 
@@ -142,7 +179,7 @@ export class UsuarioController {
       let token = this.servicioAutenticacion.GenerarTokenJWT(usuario);
       if (usuario) {
         usuario.clave = "";
-        
+
         try {
           this.usuarioRepository.logins(usuario.id).patch(
             {
@@ -162,14 +199,14 @@ export class UsuarioController {
       }
     }
     return new HttpErrors[401]("Código de 2fa inválido para el usuario definido.");
-  
-  
-  
-  
-  
-  
-  
-  
+
+
+
+
+
+
+
+
   }
 
 

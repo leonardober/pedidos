@@ -1,5 +1,8 @@
+import { env } from "process";
+import { MongodbDataSource } from "../datasources";
+
 export namespace Llaves {
-    export const claveJWT = 'Ragnar1568+klichorf';
+    export const claveJWT = process.env.PASSWORD_JWT;
     export const urlServicioNotificaciones = 'http: //localhost:5000';
     export const emailFrom = 'jennisanti2612@gmail.com';
     export const AsuntoRegistroUsuario= 'Registro exitoso en el sistema de Mascotas';
@@ -23,5 +26,6 @@ export namespace Llaves {
     export const tamMaxImagenMascota = 1024 * 1024;
     export const tamMaxImagenPersona = 2048 * 2048;
     export const tamMaxImagenProducto = 1024 * 1024;
+    export const CadenaConectionMongo = process.env.MONGO_CONECTION;
 
 }

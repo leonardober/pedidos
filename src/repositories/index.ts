@@ -13,6 +13,6 @@ export * from './brand.repository';
 export * from './category.repository';
 export * from './product-category.repository';
 export * from './login.repository';
-export * from './Menu.repository';
+export * from './menu.repository';
 export * from './rol-menu.repository';
 

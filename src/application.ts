@@ -1,3 +1,4 @@
+require ('dotenv').config();
 import {BootMixin} from '@loopback/boot';
 import {ApplicationConfig} from '@loopback/core';
 import {
@@ -11,7 +12,6 @@ import path from 'path';
 import {MySequence} from './sequence';
 import { AuthenticationComponent, registerAuthenticationStrategy } from '@loopback/authentication';
 import { EstrategiaAdministrador } from './strategies/adminstrategie';
-
 export {ApplicationConfig};
 
 export class Pedidos1Application extends BootMixin(

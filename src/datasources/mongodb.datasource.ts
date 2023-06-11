@@ -1,5 +1,11 @@
 import {inject, lifeCycleObserver, LifeCycleObserver} from '@loopback/core';
 import {juggler} from '@loopback/repository';
+import { Llaves } from '../config/llaves';
+import * as dotenv from 'dotenv' // see https://github.com/motdotla/dotenv#how-do-i-use-dotenv-with-import
+dotenv.config()
+require ('dotenv').config();
+
+
 
 
 const config = {
@@ -7,7 +13,7 @@ const config = {
   connector: 'mongodb',
 
     
-  url: 'mongodb+srv://kllichorf123:TVzKabmF7cv10gu0@cluster0.hp59efd.mongodb.net/Pruebas?retryWrites=true&w=majority',
+  url: Llaves.CadenaConectionMongo,
   host: '',
   port: 0,
   user: '',

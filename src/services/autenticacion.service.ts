@@ -28,7 +28,7 @@ export class AutenticacionService {
   /*
    * Add service methods here
 
-  
+
    */
 
 
@@ -41,7 +41,7 @@ export class AutenticacionService {
   }*/
 
 
-  
+
 
 
   GenerarClave() {    //metodo que genera la clave

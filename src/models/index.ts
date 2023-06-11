@@ -24,5 +24,5 @@ export * from './brand.model';
 export * from './product-category.model';export * from './product-category.model';
 export * from './doble-factor-autenticacion.model';
 export * from './login.model';
-export * from './Menu.model';
-export * from './rol-menu.model';
+export * from './menu.model';
+export * from './rol-menu.model';export * from './modelocorreo.model';
